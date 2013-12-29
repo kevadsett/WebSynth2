@@ -8,5 +8,7 @@ var WebSynthView = Backbone.View.extend({
         var canvas = this.$('#synthCanvas')[0];
         WebSynthEvents.trigger('renderWhiteKeys', canvas.getContext('2d'));
         WebSynthEvents.trigger('renderBlackKeys', canvas.getContext('2d'));
+        WebSynthEvents.trigger('setupClickEvents');
+        
     }
 });
