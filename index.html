@@ -1,21 +1,25 @@
 <!doctype html>
 <html>
     <head>
+        <link rel="stylesheet" href="css/styles.css" />
         <script src="js/lib/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="js/lib/underscore.js" type="text/javascript"></script>
         <script src="js/lib/backbone.js" type="text/javascript"></script>
         
         <script type="text/javascript">
-            window.WebSynth = Backbone.Events;
+            window.WebSynthEvents = Backbone.Events;
         </script>
         <script src="js/utils.js" type="text/javascript"></script>
         <script src="js/controllers/NoteConverter.js" type="text/javascript"></script>
         <script src="js/models/KeyModel.js" type="text/javascript"></script>
-        <script src="js/collections/Keyboard.js" type="text/javascript"></script>
+        <script src="js/collections/KeyCollection.js" type="text/javascript"></script>
+        <script src="js/models/WebSynthModel.js" type="text/javascript"></script>
+        
+        <script src="js/views/WebSynthView.js" type="text/javascript"></script>
+        <script src="js/views/KeyView.js" type="text/javascript"></script>
         
         <script src="js/main.js" type="text/javascript"></script>
     </head>
     <body>
-        <canvas id="synthCanvas"></canvas>
     </body>
 </html>
