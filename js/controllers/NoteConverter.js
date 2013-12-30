@@ -13,7 +13,6 @@ var NoteConverter = {
     
     getFrequencyFromNoteName: function(noteName) {
         var freq = this.getFrequencyFromNoteNumber(this.getNoteNumberFromName(noteName));
-        console.log(freq);
         return freq;
     },
     

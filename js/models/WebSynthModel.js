@@ -2,7 +2,7 @@ var WebSynthModel = Backbone.Model.extend({
     defaults: {
         topNote: "B6",
         bottomNote: "C3",
-        keys: new KeyCollection(),
+        keyboard: new KeyCollection(),
         whiteKeys: new KeyCollection(),
         blackKeys: new KeyCollection(),
         x: 40,
@@ -22,7 +22,7 @@ var WebSynthModel = Backbone.Model.extend({
             var keyModel = new KeyModel({
                 noteNumber: i
             });
-            this.get('keys').add(keyModel);
+            this.get('keyboard').add(keyModel);
             if(_.contains(NoteConverter.getNoteNameFromNumber(i), "#")) {
                 this.get('blackKeys').add(keyModel);
             } else {
@@ -34,11 +34,21 @@ var WebSynthModel = Backbone.Model.extend({
     },
     
     onKeyPressed: function(key) {
-        this.get('pressedKeys').push(key);
+        var frequency = NoteConverter.getFrequencyFromNoteName(key);
+        var voice = new WebAudioController.Voice(frequency);
+        this.get('pressedKeys').push(voice);
+        voice.start();
     },
     
     onKeyReleased: function(key) {
-        this.get('pressedKeys').splice(_.indexOf(this.get('pressedKeys'), key), 1);
+        var pressedKeys = this.get('pressedKeys');
+        var voice = _.filter(pressedKeys, function(pressedKey) {
+            return pressedKey.frequency === NoteConverter.getFrequencyFromNoteName(key);
+        })[0];
+        var voiceIndex = _.indexOf(pressedKeys, voice);
+        pressedKeys.splice(voiceIndex, 1);
+        voice.stop();
+        this.set('pressedKeys', pressedKeys);
     },
     
     positionWhiteKeys: function() {

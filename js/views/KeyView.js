@@ -44,9 +44,7 @@ var KeyView = Backbone.View.extend({
     },
     onMouseUp: function(coords) {
         if(this.model.get('pressed')) {
-            if(this.withinBounds(coords)) {
-                this.releaseKey();
-            }
+            this.releaseKey();
         }
     },
     onMouseDragged: function(coords) {
