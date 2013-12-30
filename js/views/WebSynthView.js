@@ -1,14 +1,13 @@
 var WebSynthView = Backbone.View.extend({
     el: "body",
     initialize: function() {
-        this.render();
+        this.$el.append('<canvas id="synthCanvas" width="800" height="600"></canvas>');
+        this.context = this.$('#synthCanvas')[0].getContext('2d');
+        WebSynthEvents.trigger('setupClickEvents');
+        this.listenTo(WebSynthEvents, "render", this.render);
     },
     render: function() {
-        this.$el.append('<canvas id="synthCanvas" width="800" height="600"></canvas>');
-        var canvas = this.$('#synthCanvas')[0];
-        WebSynthEvents.trigger('renderWhiteKeys', canvas.getContext('2d'));
-        WebSynthEvents.trigger('renderBlackKeys', canvas.getContext('2d'));
-        WebSynthEvents.trigger('setupClickEvents');
-        
+        WebSynthEvents.trigger('renderWhiteKeys', this.context);
+        WebSynthEvents.trigger('renderBlackKeys', this.context);
     }
 });

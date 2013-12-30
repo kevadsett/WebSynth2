@@ -6,9 +6,16 @@ var WebSynthModel = Backbone.Model.extend({
         whiteKeys: new KeyCollection(),
         blackKeys: new KeyCollection(),
         x: 40,
-        y: 40
+        y: 40,
+        pressedKeys: []
     },
     initialize: function() {
+        this.createKeys();
+        new WebSynthView();
+        this.listenTo(WebSynthEvents, "keyPressed", this.onKeyPressed);
+        this.listenTo(WebSynthEvents, "keyReleased", this.onKeyReleased);
+    },
+    createKeys: function() {
         var bottomNote = NoteConverter.getNoteNumberFromName(this.get('bottomNote')),
             topNote = NoteConverter.getNoteNumberFromName(this.get('topNote'));
         for(var i = bottomNote; i <= topNote; i++) {
@@ -22,12 +29,28 @@ var WebSynthModel = Backbone.Model.extend({
                 this.get('whiteKeys').add(keyModel);
             }
         }
+        this.positionWhiteKeys();
+        this.positionBlackKeys();
+    },
+    
+    onKeyPressed: function(key) {
+        this.get('pressedKeys').push(key);
+    },
+    
+    onKeyReleased: function(key) {
+        this.get('pressedKeys').splice(_.indexOf(this.get('pressedKeys'), key), 1);
+    },
+    
+    positionWhiteKeys: function() {
         this.get('whiteKeys').each(_.bind(function(key, index) {
             key.set({
                 x: this.get('x') + index * WebSynthModel.BASE_NOTE_WIDTH,
                 y: this.get('y')
             });
         }, this));
+    },
+    
+    positionBlackKeys: function() {
         var blackKeyOffset = WebSynthModel.BASE_NOTE_WIDTH * 0.7;
         this.get('blackKeys').each(_.bind(function(key, index) {
             key.set({
@@ -35,7 +58,6 @@ var WebSynthModel = Backbone.Model.extend({
                 y: this.get('y')
             });
             var noteName = key.get('noteName').replace(/\d/, "");
-            console.log(noteName);
             switch(noteName) {
                     case "A#":
                     case "D#":
@@ -50,8 +72,6 @@ var WebSynthModel = Backbone.Model.extend({
                     break;
             }
         }, this));
-        
-        new WebSynthView();
     }
 },{
     NOTE_NAMES: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],

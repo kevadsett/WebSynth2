@@ -1,6 +1,7 @@
 var KeyModel = Backbone.Model.extend({
     defaults: {
-        y: 0
+        y: 0,
+        pressed: false
     },
     initialize: function() {
         var noteName = NoteConverter.getNoteNameFromNumber(this.get('noteNumber'));
