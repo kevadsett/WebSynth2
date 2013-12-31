@@ -72,7 +72,7 @@ var KeyView = Backbone.View.extend({
             w = this.model.get('width'),
             h = this.model.get('height');
         if(this.model.get('isWhiteKey')) {
-            if (coords.y > y + WebSynthModel.BASE_NOTE_HEIGHT * 0.6) {
+            if (coords.y > y + WebSynthModel.baseNoteHeight * 0.6) {
                 return coords.x > x && coords.x <= x + w && coords.y > y && coords.y <= y + h;
             } else {
                 switch(this.model.get('noteType')) {
