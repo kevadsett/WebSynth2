@@ -11,7 +11,7 @@ var WebSynthModel = Backbone.Model.extend({
     },
     initialize: function() {
         this.createKeys();
-        new WebSynthView();
+        new WebSynthView({model: this});
         this.listenTo(WebSynthEvents, "keyPressed", this.onKeyPressed);
         this.listenTo(WebSynthEvents, "keyReleased", this.onKeyReleased);
         this.listenTo(WebSynthEvents, "resize", this.onResize);
