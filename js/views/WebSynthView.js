@@ -3,7 +3,7 @@ var WebSynthView = Backbone.View.extend({
     initialize: function() {
         this.$el.append('<canvas class="synthCanvas" width="800" height="600"></canvas>');
         this.context = this.$('.synthCanvas')[0].getContext('2d');
-        WebSynthEvents.trigger('setupClickEvents');
+        WebSynthEvents.trigger('setupUserEvents');
         ResizeController.resizeCanvas();
         this.listenTo(WebSynthEvents, "render", this.render);
     },
