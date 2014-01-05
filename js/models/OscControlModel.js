@@ -1,7 +1,7 @@
 var OscControlModel = Backbone.Model.extend({
     defaults: {
         osc: WebAudioController.context.createOscillator(),
-        x: 50,
+        x: 100,
         y: 50,
         
     },
@@ -10,7 +10,7 @@ var OscControlModel = Backbone.Model.extend({
         this.set('oscTypeSelector', new FaderModel({
             x: this.get('x'),
             y: this.get('y'),
-            radius:10,
+            radius:25,
             steps:4,
             angleLimit: {
                 lo: 140,

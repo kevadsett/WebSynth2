@@ -9,7 +9,7 @@ var WebSynthModel = Backbone.Model.extend({
         y: 40,
         pressedKeys: [],
         oscControlOne: new OscControlModel(),
-        oscControlTwo: new OscControlModel({y:100})
+        oscControlTwo: new OscControlModel({y:200})
     },
     initialize: function() {
         this.createKeys();
