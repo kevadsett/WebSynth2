@@ -10,7 +10,9 @@ window.requestAnimFrame = (function(){
 
 $("document").ready(function() {
     window.WebSynth = new WebSynthModel();
+    $(window).on('resize', ResizeController.resizeCanvas);
     mainLoop();
+    $(window).resize();
     function mainLoop() {
         requestAnimFrame(mainLoop);
         WebSynthEvents.trigger('render');

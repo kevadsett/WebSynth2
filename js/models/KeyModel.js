@@ -9,13 +9,13 @@ var KeyModel = Backbone.Model.extend({
         this.set('noteName', noteName);
         if(this.get('isWhiteKey')) {
             this.set({
-                width: WebSynthModel.BASE_NOTE_WIDTH,
-                height: WebSynthModel.BASE_NOTE_HEIGHT
+                width: WebSynthModel.baseNoteWidth,
+                height: WebSynthModel.baseNoteHeight
             });
         } else {
             this.set({
-                width: WebSynthModel.BASE_NOTE_WIDTH * 0.6,
-                height: WebSynthModel.BASE_NOTE_HEIGHT * 0.6
+                width: WebSynthModel.baseNoteWidth * 0.6,
+                height: WebSynthModel.baseNoteHeight * 0.6
             });
         }
         new KeyView({model: this});

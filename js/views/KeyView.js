@@ -5,9 +5,9 @@ var KeyView = Backbone.View.extend({
         } else {
             this.listenTo(WebSynthEvents, "renderBlackKeys", this.setContext);
         }
-        this.listenTo(WebSynthEvents, "mousedown", this.onMouseDown);
-        this.listenTo(WebSynthEvents, "mouseup", this.onMouseUp);
-        this.listenTo(WebSynthEvents, "mousedrag", this.onMouseDragged);
+        this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
+        this.listenTo(WebSynthEvents, "touchend", this.onTouchEnd);
+        this.listenTo(WebSynthEvents, "touchmove", this.onTouchMoved);
     },
     setContext: function(context) {
         this.context = context;
@@ -37,17 +37,19 @@ var KeyView = Backbone.View.extend({
         ctx.fillRect(x, y, w, h);
         ctx.strokeRect(x, y, w, h);
     },
-    onMouseDown: function(coords) {
+    onTouchStart: function(coords) {
         if(this.withinBounds(coords)) {
             this.pressKey();
         }
     },
-    onMouseUp: function(coords) {
-        if(this.model.get('pressed')) {
-            this.releaseKey();
+    onTouchEnd: function(coords) {
+        if(this.withinBounds(coords)) {
+            if(this.model.get('pressed')) {
+                this.releaseKey();
+            }
         }
     },
-    onMouseDragged: function(coords) {
+    onTouchMoved: function(coords) {
         if(this.withinBounds(coords)) {
             if(!this.model.get('pressed')) {
                 this.pressKey();
@@ -72,7 +74,7 @@ var KeyView = Backbone.View.extend({
             w = this.model.get('width'),
             h = this.model.get('height');
         if(this.model.get('isWhiteKey')) {
-            if (coords.y > y + WebSynthModel.BASE_NOTE_HEIGHT * 0.6) {
+            if (coords.y > y + WebSynthModel.baseNoteHeight * 0.6) {
                 return coords.x > x && coords.x <= x + w && coords.y > y && coords.y <= y + h;
             } else {
                 switch(this.model.get('noteType')) {

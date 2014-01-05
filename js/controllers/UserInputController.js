@@ -1,12 +1,32 @@
-WebSynthEvents.on('setupClickEvents', function(){
-    $('#synthCanvas').on('mousedown', function(event) {
-        WebSynthEvents.trigger('mousedown', {x: event.pageX, y: event.pageY});
-        $('#synthCanvas').on('mousemove', function(event) {
-            WebSynthEvents.trigger('mousedrag', {x: event.pageX, y: event.pageY});
+UserInputController = {
+    touches: [],
+    init: function() {
+        WebSynthEvents.on('setupUserEvents', function(){
+            $('.synthCanvas').on('mousedown', UserInputController.onMouseDown);
+            $('.synthCanvas').on('mouseup', UserInputController.onMouseUp);
         });
-    });
-    $('#synthCanvas').on('mouseup', function(event) {
-        WebSynthEvents.trigger('mouseup', {x: event.pageX, y: event.pageY});
-        $('#synthCanvas').off('mousemove');
-    });
-});
+    },
+    onMouseDown: function(event) {
+        event.preventDefault();
+        var $target = $(event.target),
+            x = event.pageX - $target.offset().left,
+            y = event.pageY - $target.offset().top;
+        WebSynthEvents.trigger('touchstart', {x: x, y: y});
+        $('.synthCanvas').on('mousemove', UserInputController.onMouseMove);
+    },
+    onMouseMove: function(event) {
+        event.preventDefault();
+        var $target = $(event.target),
+            x = event.pageX - $target.offset().left,
+            y = event.pageY - $target.offset().top;
+        WebSynthEvents.trigger('touchmove', {x: x, y: y});
+    },
+    onMouseUp: function(event) {
+        event.preventDefault();
+        var $target = $(event.target),
+            x = event.pageX - $target.offset().left,
+            y = event.pageY - $target.offset().top;
+        WebSynthEvents.trigger('touchend', {x: x, y: y});
+        $('.synthCanvas').off('mousemove');
+    }
+}
