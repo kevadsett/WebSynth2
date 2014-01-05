@@ -1,31 +1,32 @@
 UserInputController = {
+    touches: [],
     init: function() {
-        WebSynthEvents.on('setupClickEvents', function(){
-            $('.synthCanvas').on('mousedown', UserInputController.onClick);
-            $('.synthCanvas').on('mouseup', UserInputController.onRelease);
+        WebSynthEvents.on('setupUserEvents', function(){
+            $('.synthCanvas').on('mousedown', UserInputController.onMouseDown);
+            $('.synthCanvas').on('mouseup', UserInputController.onMouseUp);
         });
     },
-    onClick: function(event) {
+    onMouseDown: function(event) {
         event.preventDefault();
         var $target = $(event.target),
             x = event.pageX - $target.offset().left,
             y = event.pageY - $target.offset().top;
-        WebSynthEvents.trigger('mousedown', {x: x, y: y});
-        $('.synthCanvas').on('mousemove', UserInputController.onDrag);
+        WebSynthEvents.trigger('touchstart', {x: x, y: y});
+        $('.synthCanvas').on('mousemove', UserInputController.onMouseMove);
     },
-    onDrag: function(event) {
+    onMouseMove: function(event) {
         event.preventDefault();
         var $target = $(event.target),
             x = event.pageX - $target.offset().left,
             y = event.pageY - $target.offset().top;
-        WebSynthEvents.trigger('mousedrag', {x: x, y: y});
+        WebSynthEvents.trigger('touchmove', {x: x, y: y});
     },
-    onRelease: function(event) {
+    onMouseUp: function(event) {
         event.preventDefault();
         var $target = $(event.target),
             x = event.pageX - $target.offset().left,
             y = event.pageY - $target.offset().top;
-        WebSynthEvents.trigger('mouseup', {x: x, y: y});
+        WebSynthEvents.trigger('touchend', {x: x, y: y});
         $('.synthCanvas').off('mousemove');
     }
 }
