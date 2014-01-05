@@ -11,13 +11,14 @@ var OscControlModel = Backbone.Model.extend({
             x: this.get('x'),
             y: this.get('y'),
             radius:10,
-            steps:3,
+            steps:4,
             angleLimit: {
                 lo: 140,
                 hi: 40
             },
-            angle: 270
+            angle: 140
         }));
+        new OscControlView({model:this});
     },
     getType: function() {
         return this.get('osc').type;
