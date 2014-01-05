@@ -7,7 +7,9 @@ var WebSynthModel = Backbone.Model.extend({
         blackKeys: new KeyCollection(),
         x: 40,
         y: 40,
-        pressedKeys: []
+        pressedKeys: [],
+        oscControlOne: new OscControlModel(),
+        oscControlTwo: new OscControlModel({y:100})
     },
     initialize: function() {
         this.createKeys();
@@ -61,7 +63,9 @@ var WebSynthModel = Backbone.Model.extend({
         WebSynthModel.baseNoteWidth = (w - (WebSynthModel.padding * 2)) / this.get('whiteKeys').length;
         this.set({
             x: 0 + WebSynthModel.padding,
-            y: h - WebSynthModel.baseNoteHeight - WebSynthModel.padding
+            y: h - WebSynthModel.baseNoteHeight - WebSynthModel.padding,
+            width: w,
+            height: h
         });
         this.positionWhiteKeys();
         this.positionBlackKeys();
