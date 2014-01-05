@@ -8,6 +8,8 @@ var WebSynthView = Backbone.View.extend({
         this.listenTo(WebSynthEvents, "render", this.render);
     },
     render: function() {
+        this.context.clearRect(0, 0, this.model.get('width'), this.model.get('height'));
+        WebSynthEvents.trigger('renderControls', this.context);
         WebSynthEvents.trigger('renderWhiteKeys', this.context);
         WebSynthEvents.trigger('renderBlackKeys', this.context);
     }
