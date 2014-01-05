@@ -1,6 +1,6 @@
 var WebSynthModel = Backbone.Model.extend({
     defaults: {
-        topNote: "C6",
+        topNote: "C5",
         bottomNote: "C3",
         keyboard: new KeyCollection(),
         whiteKeys: new KeyCollection(),
