@@ -1,6 +1,5 @@
 var OscControlModel = Backbone.Model.extend({
     defaults: {
-        osc: WebAudioController.context.createOscillator(),
         x: 100,
         y: 50,
         
@@ -21,9 +20,6 @@ var OscControlModel = Backbone.Model.extend({
         new OscControlView({model:this});
     },
     getType: function() {
-        return this.get('osc').type;
-    },
-    setType: function(value) {
-        this.get('osc').type = value;
+        return this.get('oscTypeSelector').get('value');
     }
 });

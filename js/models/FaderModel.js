@@ -3,6 +3,7 @@ var FaderModel = Backbone.Model.extend({
         x: 0,
         y: 0,
         radius: 10,
+        value: 0
     },
     initialize: function() {
         console.log("initializing fader model");

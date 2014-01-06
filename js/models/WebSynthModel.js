@@ -40,8 +40,12 @@ var WebSynthModel = Backbone.Model.extend({
     onKeyPressed: function(key) {
         var frequency = NoteConverter.getFrequencyFromNoteName(key);
         var voice = new WebAudioController.Voice(frequency);
+        var vco1 = WebAudioController.context.createOscillator(),
+            vco2 = WebAudioController.context.createOscillator();
+        vco1.type = this.get('oscControlOne').getType();
+        vco2.type = this.get('oscControlTwo').getType();
         this.get('pressedKeys').push(voice);
-        voice.start();
+        voice.start(vco1, vco2);
     },
     
     onKeyReleased: function(key) {
