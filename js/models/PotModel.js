@@ -1,4 +1,4 @@
-var FaderModel = Backbone.Model.extend({
+var PotModel = Backbone.Model.extend({
     defaults: {
         x: 0,
         y: 0,
@@ -7,7 +7,7 @@ var FaderModel = Backbone.Model.extend({
     },
     initialize: function() {
         console.log("initializing fader model");
-        new FaderView({model: this});
+        new PotView({model: this});
         this.on('change:angle', _.bind(this.limitAngle, this));
     },
     limitAngle: function() {

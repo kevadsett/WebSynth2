@@ -6,17 +6,23 @@ var OscControlModel = Backbone.Model.extend({
     },
     initialize: function() {
         console.log("Initializing osc control model");
-        this.set('oscTypeSelector', new FaderModel({
-            x: this.get('x'),
-            y: this.get('y'),
-            radius:25,
-            steps:4,
-            angleLimit: {
-                lo: 140,
-                hi: 40
-            },
-            angle: 140
-        }));
+        this.set({
+            oscTypeSelector: new PotModel({
+                x: this.get('x'),
+                y: this.get('y'),
+                radius:25,
+                steps:4,
+                angleLimit: {
+                    lo: 140,
+                    hi: 40
+                },
+                angle: 140
+            }),
+            oscVolumeSlider: new FaderModel({
+                x: this.get('x') + 200,
+                y: this.get('y')
+            })
+        });
         new OscControlView({model:this});
     },
     getType: function() {

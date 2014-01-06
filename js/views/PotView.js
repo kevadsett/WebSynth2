@@ -1,4 +1,4 @@
-var FaderView = Backbone.View.extend({
+var PotView = Backbone.View.extend({
     initialize: function() {
         this.listenTo(WebSynthEvents, "renderControls", this.setContext);
         this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
