@@ -16,6 +16,11 @@ function radToDeg(value) {
     return value * (180 / Math.PI);
 }
 
+function toDecimalPlaces(value, places) {
+    var power = Math.pow(10, places);
+    return (Math.round(power * value)) / power;
+}
+
 function drawSineIcon(context, x, y, size) {
     var increment = 0.5;
     context.beginPath();

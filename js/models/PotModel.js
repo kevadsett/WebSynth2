@@ -6,7 +6,7 @@ var PotModel = Backbone.Model.extend({
         value: 0
     },
     initialize: function() {
-        console.log("initializing fader model");
+        console.log("initializing pot model");
         new PotView({model: this});
         this.on('change:angle', _.bind(this.limitAngle, this));
     },

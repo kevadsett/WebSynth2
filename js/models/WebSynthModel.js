@@ -41,13 +41,29 @@ var WebSynthModel = Backbone.Model.extend({
         var frequency = NoteConverter.getFrequencyFromNoteName(key);
         this.startVoice(new WebAudioController.Voice(frequency));
     },
+    
     startVoice: function(voice) {
         var vco1 = WebAudioController.context.createOscillator(),
-            vco2 = WebAudioController.context.createOscillator();
+            vco2 = WebAudioController.context.createOscillator(),
+            vca1 = WebAudioController.context.createGain(),
+            vca2 = WebAudioController.context.createGain();
+        vca1.gain.value = this.get('oscControlOne').get('oscVolumeSlider').get('value');
+        vca2.gain.value = this.get('oscControlTwo').get('oscVolumeSlider').get('value');
+        this.limitGain(vca1, vca2);
         vco1.type = this.get('oscControlOne').getType();
         vco2.type = this.get('oscControlTwo').getType();
         this.get('pressedKeys').push(voice);
-        voice.start(vco1, vco2);
+        voice.start(vco1, vca1, vco2, vca2);
+    },
+    
+    limitGain: function(vca1, vca2) {
+        var totalValue = vca1.gain.value + vca2.gain.value;
+        var value1 = Math.max(normalise(vca1.gain.value, 0, totalValue) - 0.1, 0),
+            value2 = Math.max(normalise(vca2.gain.value, 0, totalValue) - 0.1, 0);
+        value1 = toDecimalPlaces(value1, 2);
+        value2 = toDecimalPlaces(value2, 2);
+        vca1.gain.value = value1;
+        vca2.gain.value = value2;
     },
     
     onKeyReleased: function(key) {

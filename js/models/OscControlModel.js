@@ -19,8 +19,9 @@ var OscControlModel = Backbone.Model.extend({
                 angle: 140
             }),
             oscVolumeSlider: new FaderModel({
-                x: this.get('x') + 200,
-                y: this.get('y')
+                x: this.get('x') + 75,
+                y: this.get('y') - 25,
+                value: 1
             })
         });
         new OscControlView({model:this});
