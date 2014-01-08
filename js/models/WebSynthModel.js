@@ -57,7 +57,7 @@ var WebSynthModel = Backbone.Model.extend({
     },
     
     limitGain: function(vca1, vca2) {
-        var totalValue = vca1.gain.value + vca2.gain.value;
+        var totalValue = Math.max(1, vca1.gain.value + vca2.gain.value);
         var value1 = Math.max(normalise(vca1.gain.value, 0, totalValue) - 0.1, 0),
             value2 = Math.max(normalise(vca2.gain.value, 0, totalValue) - 0.1, 0);
         value1 = toDecimalPlaces(value1, 2);
