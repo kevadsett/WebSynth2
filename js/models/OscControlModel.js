@@ -22,6 +22,17 @@ var OscControlModel = Backbone.Model.extend({
                 x: this.get('x') + 75,
                 y: this.get('y') - 25,
                 value: 1
+            }),
+            oscDetunePot: new PotModel({
+                x: this.get('x') + 150,
+                y: this.get('y'),
+                radius: 25,
+                angleLimit: {
+                    lo: 135, 
+                    hi: 45
+                },
+                angle: 270,
+                dualPolarity: true
             })
         });
         new OscControlView({model:this});

@@ -16,6 +16,16 @@ var PotModel = Backbone.Model.extend({
             hiLimit = this.get('angleLimit').hi,
             steps = this.get('steps');
         
+        if(this.getOffsetAngle(angle) > this.getOffsetAngle(hiLimit)) {
+            console.log("Out of bounds");
+            if(Math.abs(angle - loLimit) <= Math.abs(angle - hiLimit)) {
+                angle = loLimit;
+            } else {
+                angle = hiLimit;
+            }
+        }
+        this.set('angle', angle);
+        /*
         if(loLimit > hiLimit) {
             hiLimit = hiLimit + 360;
         }
@@ -39,6 +49,9 @@ var PotModel = Backbone.Model.extend({
             'angle': angle,
             'value': angleIndex
         });
-        console.log(this.get('value'));
+        console.log(this.get('value'));*/
+    },
+    getOffsetAngle: function(angle) {
+        return (angle - this.get('angleLimit').lo + 360) % 360;
     }
 });
