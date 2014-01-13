@@ -9,5 +9,9 @@ var FaderModel = Backbone.Model.extend({
     initialize: function() {
         console.log("initializing fader model");
         new FaderView({model: this});
+    },
+    //convenience!
+    getValue: function() {
+        return this.get('value');
     }
 });
