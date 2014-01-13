@@ -25,6 +25,7 @@ var FaderView = Backbone.View.extend({
             value = normalise(coords.y, y + this.model.get('height'), y);
         value = Math.min(value, 1);
         value = Math.max(value, 0);
+        console.log(this.model.cid, value);
         this.model.set('value', value);
     },
     withinBounds: function(coords) {
