@@ -43,15 +43,21 @@ var WebSynthModel = Backbone.Model.extend({
     },
     
     startVoice: function(voice) {
-        var vco1 = WebAudioController.context.createOscillator(),
+        var oscControlOne = this.get('oscControlOne'),
+            oscControlTwo = this.get('oscControlTwo'),
+            vco1 = WebAudioController.context.createOscillator(),
             vco2 = WebAudioController.context.createOscillator(),
             vca1 = WebAudioController.context.createGain(),
             vca2 = WebAudioController.context.createGain();
-        vca1.gain.value = this.get('oscControlOne').get('oscVolumeSlider').get('value');
-        vca2.gain.value = this.get('oscControlTwo').get('oscVolumeSlider').get('value');
+        vca1.gain.value = oscControlOne.get('volumeFader').getValue();
+        vca2.gain.value = oscControlTwo.get('volumeFader').getValue();
         this.limitGain(vca1, vca2);
-        vco1.type = this.get('oscControlOne').getType();
-        vco2.type = this.get('oscControlTwo').getType();
+        
+        vco1.type = oscControlOne.getType();
+        vco2.type = oscControlTwo.getType();
+        vco1.detune.value = oscControlOne.get('detunePot').getValue();
+        vco2.detune.value = oscControlTwo.get('detunePot').getValue();
+        
         this.get('pressedKeys').push(voice);
         voice.start(vco1, vca1, vco2, vca2);
     },

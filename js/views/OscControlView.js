@@ -7,10 +7,10 @@ var OscControlView = Backbone.View.extend({
         this.render();
     },
     render: function() {
-        var oscTypeSelector = this.model.get('oscTypeSelector'),
-            x = oscTypeSelector.get('x'),
-            y = oscTypeSelector.get('y'),
-            radius = oscTypeSelector.get('radius');
+        var typeSelector = this.model.get('typeSelector'),
+            x = typeSelector.get('x'),
+            y = typeSelector.get('y'),
+            radius = typeSelector.get('radius');
         drawSineIcon(this.context, x - radius * 2, y + radius, radius);
         drawSquareIcon(this.context, x - radius * 2, y - radius, radius);
         drawSawIcon(this.context, x + radius , y - radius, radius);
