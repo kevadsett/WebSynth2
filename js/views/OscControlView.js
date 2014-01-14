@@ -7,7 +7,7 @@ var OscControlView = Backbone.View.extend({
         this.render();
     },
     render: function() {
-        var typeSelector = this.model.get('typeSelector'),
+        var typeSelector = this.model.get('typeSelectorPot'),
             x = typeSelector.get('x'),
             y = typeSelector.get('y'),
             radius = typeSelector.get('radius');

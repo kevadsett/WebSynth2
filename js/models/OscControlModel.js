@@ -7,7 +7,7 @@ var OscControlModel = Backbone.Model.extend({
     initialize: function() {
         console.log("Initializing osc control model");
         this.set({
-            typeSelector: new PotModel({
+            typeSelectorPot: new PotModel({
                 x: this.get('x'),
                 y: this.get('y'),
                 radius:25,
@@ -41,6 +41,12 @@ var OscControlModel = Backbone.Model.extend({
         new OscControlView({model:this});
     },
     getType: function() {
-        return this.get('typeSelector').get('value');
+        return this.get('typeSelectorPot').getValue();
+    },
+    getVolume: function() {
+        return this.get('volumeFader').getValue();
+    },
+    getDetune: function() {
+        return this.get('detunePot').getValue();
     }
 });
