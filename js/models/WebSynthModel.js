@@ -8,8 +8,7 @@ var WebSynthModel = Backbone.Model.extend({
         x: 40,
         y: 40,
         pressedKeys: [],
-        oscControlOne: new OscControlModel(),
-        oscControlTwo: new OscControlModel({y:200})
+        oscControls: [new OscControlModel(), new OscControlModel({y:200})]
     },
     initialize: function() {
         this.createKeys();
@@ -43,33 +42,45 @@ var WebSynthModel = Backbone.Model.extend({
     },
     
     startVoice: function(voice) {
-        var oscControlOne = this.get('oscControlOne'),
-            oscControlTwo = this.get('oscControlTwo'),
-            vco1 = WebAudioController.context.createOscillator(),
-            vco2 = WebAudioController.context.createOscillator(),
-            vca1 = WebAudioController.context.createGain(),
-            vca2 = WebAudioController.context.createGain();
-        vca1.gain.value = oscControlOne.get('volumeFader').getValue();
-        vca2.gain.value = oscControlTwo.get('volumeFader').getValue();
-        this.limitGain(vca1, vca2);
+        var oscControls = this.get('oscControls'),
+            vcos = [],
+            vcas = [];
         
-        vco1.type = oscControlOne.getType();
-        vco2.type = oscControlTwo.getType();
-        vco1.detune.value = oscControlOne.get('detunePot').getValue();
-        vco2.detune.value = oscControlTwo.get('detunePot').getValue();
+        _.each(oscControls, function(oscControl){
+            vcos.push(this.createVco(oscControl));
+            vcas.push(this.createVca(oscControl));
+        }, this);
+        
+        this.limitGain(vcas);
         
         this.get('pressedKeys').push(voice);
-        voice.start(vco1, vca1, vco2, vca2);
+        voice.start(vcos, vcas);
     },
     
-    limitGain: function(vca1, vca2) {
-        var totalValue = Math.max(1, vca1.gain.value + vca2.gain.value);
-        var value1 = Math.max(normalise(vca1.gain.value, 0, totalValue) - 0.1, 0),
-            value2 = Math.max(normalise(vca2.gain.value, 0, totalValue) - 0.1, 0);
-        value1 = toDecimalPlaces(value1, 2);
-        value2 = toDecimalPlaces(value2, 2);
-        vca1.gain.value = value1;
-        vca2.gain.value = value2;
+    createVco: function(control) {
+        var vco = WebAudioController.context.createOscillator();
+        vco.detune.value = control.getDetune();
+        vco.type = control.getType();
+        return vco;
+    },
+    
+    createVca: function(control) {
+        var vca = WebAudioController.context.createGain();
+        vca.gain.value = control.getVolume();
+        return vca;
+    },
+    
+    limitGain: function(vcas) {
+        var totalValue = _.reduce(vcas, function(currentValue, vca) {
+            currentValue += vca.gain.value;
+            return currentValue;
+        }, 0);
+        totalValue = Math.max(1, totalValue);
+        _.each(vcas, function(vca, index) {
+            var value = Math.max(normalise(vca.gain.value, 0, totalValue) - 0.1, 0);
+            value = toDecimalPlaces(value, 2);
+            vca.gain.value = value;
+        });
     },
     
     onKeyReleased: function(key) {

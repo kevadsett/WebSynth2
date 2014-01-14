@@ -15,9 +15,13 @@ var WebAudioController = {
 }
 
 WebAudioController.Voice.prototype = {
-    start: function(vco1, vca1, vco2, vca2) {
-        this.setupOsc(vco1, vca1);
-        this.setupOsc(vco2, vca2);
+    start: function(vcos, vcas) {
+        if(vcos.length !== vcas.length) {
+            throw new Error("Number of oscillators differs from number of gains");
+        }
+        _.each(vcos, function(vco, index) {
+            this.setupOsc(vco, vcas[index]);
+        }, this);
     },
     
     setupOsc: function(vco, vca) {
