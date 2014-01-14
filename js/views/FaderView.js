@@ -32,8 +32,19 @@ var FaderView = Backbone.View.extend({
         var x = this.model.get('x'),
             y = this.model.get('y'),
             width = this.model.get('width'),
-            height = this.model.get('height');
-        return coords.x > x && coords.x < x + width && coords.y > y && coords.y < y + height;
+            height = this.model.get('height'),
+            value = this.model.get('value'),
+            padding = this.model.get('padding');
+        console.log(value);
+        return ((coords.x > x 
+                 && coords.x < x + width 
+                 && coords.y > y 
+                 && coords.y < y + height)
+                || (coords.x > x - padding 
+                    && coords.x < x + width + padding 
+                    && coords.y > y - (value * height) - padding 
+                    && coords.y < (value * height) + padding)
+               );
     },
     render: function() {
         var ctx = this.context,
@@ -53,7 +64,7 @@ var FaderView = Backbone.View.extend({
         ctx.closePath();
         
         ctx.beginPath();
-        var padding = height/10;
+        var padding = this.model.get('padding');
         ctx.rect(-padding, height - valueY - padding, width + padding * 2, padding * 2);
         ctx.moveTo(padding, height - valueY);
         ctx.lineTo(width - padding, height - valueY);
