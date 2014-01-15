@@ -52,7 +52,7 @@ var WebSynthModel = Backbone.Model.extend({
         }, this);
         
         this.limitGain(vcas);
-        
+        console.log(vcos);
         this.get('pressedKeys').push(voice);
         voice.start(vcos, vcas);
     },
@@ -61,6 +61,8 @@ var WebSynthModel = Backbone.Model.extend({
         var vco = WebAudioController.context.createOscillator();
         vco.detune.value = control.getDetune();
         vco.type = control.getType();
+        vco.octaveModifier = control.getOctaveOffset();
+        vco.pitchModifier = control.getPitchOffset();
         return vco;
     },
     

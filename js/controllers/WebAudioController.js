@@ -33,7 +33,9 @@ WebAudioController.Voice.prototype = {
             vca = WebAudioController.context.createGain();
             vca.gain.value = 0;
         }
-        vco.frequency.value = this.frequency;
+        var currentNoteNumber = NoteConverter.getNoteNumberFromFrequency(this.frequency);
+        currentNoteNumber += vco.pitchModifier + (12 * vco.octaveModifier);
+        vco.frequency.value = NoteConverter.getFrequencyFromNoteNumber(currentNoteNumber);
         vco.connect(vca);
         vca.connect(WebAudioController.context.destination);
         
