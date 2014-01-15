@@ -29,22 +29,23 @@ var FaderView = Backbone.View.extend({
         this.model.set('value', value);
     },
     withinBounds: function(coords) {
-        var x = this.model.get('x'),
-            y = this.model.get('y'),
-            width = this.model.get('width'),
-            height = this.model.get('height'),
-            value = this.model.get('value'),
+        var left = this.model.get('x'),
+            top = this.model.get('y'),
+            right = left + this.model.get('width'),
+            bottom = top + this.model.get('height'),
+            valueY = bottom - (this.model.get('value') * this.model.get('height')),
             padding = this.model.get('padding');
-        console.log(value);
-        return ((coords.x > x 
-                 && coords.x < x + width 
-                 && coords.y > y 
-                 && coords.y < y + height)
-                || (coords.x > x - padding 
-                    && coords.x < x + width + padding 
-                    && coords.y > y - (value * height) - padding 
-                    && coords.y < (value * height) + padding)
-               );
+        
+        var withinSliderBounds = (coords.x > left 
+                 && coords.x < right
+                 && coords.y > top 
+                 && coords.y < bottom);
+        var withinSwitchBounds = (coords.x > left - padding 
+                && coords.x < right + padding
+                && coords.y > valueY - padding
+                && coords.y < valueY + padding);
+        
+        return withinSliderBounds || withinSwitchBounds;
     },
     render: function() {
         var ctx = this.context,
