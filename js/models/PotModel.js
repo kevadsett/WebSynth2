@@ -24,8 +24,40 @@ var PotModel = Backbone.Model.extend({
                 }
             }
         }
-        this.set('values', values);
+        this.set({
+            values: values,
+            angle: this.get('startAngle')
+        })
+        if(steps) this.calculateStepAngles();
     },
+    
+    calculateStepAngles: function() {
+        var stepValues = [];
+        this.eachStep(function(targetAngle) {
+            stepValues.push(targetAngle);
+        });
+        this.set({
+            stepValues: stepValues
+        });
+    },
+    
+    eachStep: function(callback) {
+        var loLimit = this.get('angleLimit').lo,
+            hiLimit = this.get('angleLimit').hi,
+            steps = this.get('steps');
+        
+        if(loLimit > hiLimit) {
+            hiLimit = hiLimit + 360;
+        }
+        var angleBetween = hiLimit - loLimit,
+            singleStep = angleBetween / (steps - 1);
+            
+        for(var i = 0; i < steps; i++) {
+            var targetAngle = (loLimit + (singleStep * i)) % 360;
+            callback(targetAngle, i);
+        }
+    },
+    
     limitAngle: function() {
         var angle = (this.get('angle') + 360) % 360,
             offsetAngle = this.getOffsetAngle(angle),
@@ -48,27 +80,19 @@ var PotModel = Backbone.Model.extend({
                 'value': mapValue(offsetAngle, 0, offsetHiLimit, values.lo, values.hi)
             });
         } else {
-            if(loLimit > hiLimit) {
-                hiLimit = hiLimit + 360;
-            }
-            if(steps !== undefined) {
-                var angleBetween = hiLimit - loLimit,
-                    singleStep = angleBetween / (steps - 1);
-                var closestAngle, closeness = 360, angleIndex = -1;
-                for(var i = 0; i < steps; i++) {
-                    var targetAngle = (loLimit + (singleStep * i)) % 360;
-                    if (Math.abs(angle - targetAngle) < closeness) {
-                        closeness = Math.abs(angle - targetAngle);
-                        closestAngle = targetAngle;
-                        angleIndex = i;
-                    }
+            var closestAngle, closeness = 360, angleIndex = -1;
+            this.eachStep(function(targetAngle, index) {
+                if (Math.abs(angle - targetAngle) < closeness) {
+                    closeness = Math.abs(angle - targetAngle);
+                    closestAngle = targetAngle;
+                    angleIndex = index;
                 }
-                angle = closestAngle;
-            }
+            });
+            angle = closestAngle;
             
             this.set({
-                'angle': angle,
-                'value': mapValue(angleIndex, 0, steps-1, values.lo, values.hi)
+                angle: angle,
+                value: mapValue(angleIndex, 0, steps-1, values.lo, values.hi)
             });
         }
         console.log(this.cid, toDecimalPlaces(this.get('value'), 2));
