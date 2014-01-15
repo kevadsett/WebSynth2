@@ -19,4 +19,8 @@ var NoteConverter = {
     getFrequencyFromNoteNumber: function(noteNumber) {
         return Math.pow(2, noteNumber/12) * WebSynthModel.BOTTOM_C_FREQ;
     },
+    
+    getNoteNumberFromFrequency: function(frequency) {
+        return Math.round(12 * (Math.log(frequency / WebSynthModel.BOTTOM_C_FREQ) / Math.log(2)));
+    }
 };
