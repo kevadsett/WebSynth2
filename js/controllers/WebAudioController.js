@@ -40,8 +40,6 @@ WebAudioController.Voice.prototype = {
         vca.connect(WebAudioController.context.destination);
         
         vco.start(0);
-        console.log("vco:", vco.type);
-        console.log("vca:", vca.gain.value);
         this.oscillators.push(vco);
     },
     

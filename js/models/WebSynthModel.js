@@ -52,7 +52,6 @@ var WebSynthModel = Backbone.Model.extend({
         }, this);
         
         this.limitGain(vcas);
-        console.log(vcos);
         this.get('pressedKeys').push(voice);
         voice.start(vcos, vcas);
     },

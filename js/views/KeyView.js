@@ -45,18 +45,19 @@ var KeyView = Backbone.View.extend({
     onTouchEnd: function(coords) {
         if(this.withinBounds(coords)) {
             if(this.model.get('pressed')) {
+            console.log("touchend within bounds of pressed key: " + this.model.get('noteName'));
                 this.releaseKey();
             }
         }
     },
     onTouchMoved: function(coords) {
-        if(this.withinBounds(coords)) {
-            if(!this.model.get('pressed')) {
-                this.pressKey();
-            }
-        } else {
+        if(!this.withinBounds(coords)) {
             if(this.model.get('pressed')) {
                 this.releaseKey();
+            }
+        } else {
+            if(!this.model.get('pressed')) {
+                this.pressKey();
             }
         }
     },
@@ -82,7 +83,13 @@ var KeyView = Backbone.View.extend({
                         return coords.x > x && coords.x <= x + w * 0.6 && coords.y > y && coords.y <= y + h;
                         break;
                     case "middle":
-                        return coords.x > x + w * 0.4 && coords.x <= x + w * 0.6 && coords.y > y && coords.y <= y + h;
+                        return coords.x > x + w * 0.2 && coords.x <= x + w * 0.8 && coords.y > y && coords.y <= y + h;
+                        break;
+                    case "midLeft":
+                        return coords.x > x + w * 0.2 && coords.x <= x + w * 0.7 && coords.y > y && coords.y <= y + h;
+                        break;
+                    case "midRight":
+                        return coords.x > x + w * 0.3 && coords.x <= x + w * 0.8 && coords.y > y && coords.y <= y + h;
                         break;
                     case "right":
                         return coords.x > x + w * 0.4 && coords.x <= x + w && coords.y > y && coords.y <= y + h;

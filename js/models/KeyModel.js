@@ -26,9 +26,13 @@ var KeyModel = Backbone.Model.extend({
                 this.set('noteType', "left");
                 break;
             case "D":
-            case "G":
-            case "A":
                 this.set('noteType', "middle");
+                break;
+            case "G":
+                this.set('noteType', "midLeft");
+                break;
+            case "A":
+                this.set('noteType', "midRight");
                 break;
             case "E":
             case "B":
