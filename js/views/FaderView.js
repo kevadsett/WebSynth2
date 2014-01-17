@@ -56,6 +56,10 @@ var FaderView = Backbone.View.extend({
             valueY = this.model.get('value') * height;
         ctx.save();
         ctx.translate(x, y);
+        // label
+        ctx.textAlign = "center";
+        ctx.fillText(this.model.get('label'), width/2, height + height/3);
+        
         ctx.beginPath();
         ctx.rect(0, 0, width, height);
         ctx.fillStyle = "#333";

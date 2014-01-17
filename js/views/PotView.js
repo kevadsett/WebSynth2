@@ -45,7 +45,8 @@ var PotView = Backbone.View.extend({
         ctx.translate(centreX, centreY);
         
         // label
-        ctx.fillText(this.model.get('label'), 0 - radius, radius * 2);
+        ctx.textAlign = "center";
+        ctx.fillText(this.model.get('label'), 0, radius * 2);
         
         // notches
         var angleLimit = this.model.get('angleLimit');

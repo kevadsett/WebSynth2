@@ -12,6 +12,7 @@ UserInputController = {
             x = event.pageX - $target.offset().left,
             y = event.pageY - $target.offset().top;
         WebSynthEvents.trigger('touchstart', {x: x, y: y});
+//        console.log(x, y);
         $('.synthCanvas').on('mousemove', UserInputController.onMouseMove);
     },
     onMouseMove: function(event) {

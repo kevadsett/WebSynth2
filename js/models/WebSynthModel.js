@@ -8,7 +8,8 @@ var WebSynthModel = Backbone.Model.extend({
         x: 40,
         y: 40,
         pressedKeys: [],
-        oscControls: [new OscControlModel(), new OscControlModel({y:200})]
+        oscControls: [new OscControlModel(), new OscControlModel({y:200})],
+        adsr: new EnvelopeModel()
     },
     initialize: function() {
         this.createKeys();
