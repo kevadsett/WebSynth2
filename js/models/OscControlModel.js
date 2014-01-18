@@ -16,7 +16,7 @@ var OscControlModel = Backbone.Model.extend({
                     lo: 140,
                     hi: 40
                 },
-                startAngle: 140,
+                startStep: 2,
                 label: "Wave type"
             }),
             volumeFader: new FaderModel({

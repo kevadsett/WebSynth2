@@ -79,7 +79,7 @@ var WebSynthModel = Backbone.Model.extend({
         }, 0);
         totalValue = Math.max(1, totalValue);
         _.each(vcas, function(vca, index) {
-            var value = Math.max(normalise(vca.gain.value, 0, totalValue) - 0.1, 0);
+            var value = Math.max(normalise(vca.gain.value, 0, totalValue) - 0.3, 0);
             value = toDecimalPlaces(value, 2);
             vca.maximum = value;
         });

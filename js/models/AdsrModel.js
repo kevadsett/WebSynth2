@@ -13,7 +13,7 @@ var AdsrModel = Backbone.Model.extend({
                 y: this.get('y') + this.get('height') + 15,
                 height: 40,
                 width: 15,
-                value: 0.15,
+                value: 0.01,
                 lo: 0.01,
                 hi: 3,
                 label: "A"
@@ -41,7 +41,7 @@ var AdsrModel = Backbone.Model.extend({
                 y: this.get('y') + this.get('height') + 15,
                 height: 40,
                 width: 15,
-                value: 0.9,
+                value: 0.01,
                 lo: 0.01,
                 hi: 3,
                 label: "R"
