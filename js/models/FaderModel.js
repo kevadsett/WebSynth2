@@ -4,7 +4,9 @@ var FaderModel = Backbone.Model.extend({
         y: 0,
         width: 20,
         height: 50,
-        value: 0
+        value: 0,
+        lo: 0,
+        hi: 1
     },
     initialize: function() {
         console.log("initializing fader model");
@@ -16,5 +18,8 @@ var FaderModel = Backbone.Model.extend({
     //convenience!
     getValue: function() {
         return this.get('value');
+    },
+    getNormalisedValue: function() {
+        return normalise(this.get('value'), this.get('lo'), this.get('hi'));
     }
 });
