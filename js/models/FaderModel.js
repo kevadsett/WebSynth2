@@ -17,7 +17,7 @@ var FaderModel = Backbone.Model.extend({
     },
     //convenience!
     getValue: function() {
-        return this.get('value');
+        return toDecimalPlaces(this.get('value'), 1);
     },
     getNormalisedValue: function() {
         return normalise(this.get('value'), this.get('lo'), this.get('hi'));

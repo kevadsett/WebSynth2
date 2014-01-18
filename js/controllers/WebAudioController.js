@@ -15,13 +15,16 @@ var WebAudioController = {
 }
 
 WebAudioController.Voice.prototype = {
-    start: function(vcos, vcas) {
+    start: function(vcos, vcas, envelope) {
+        this.envelope = envelope;
         if(vcos.length !== vcas.length) {
             throw new Error("Number of oscillators differs from number of gains");
         }
-        _.each(vcos, function(vco, index) {
-            this.setupOsc(vco, vcas[index]);
-        }, this);
+        
+        for(var i = 0; i < vcos.length; i++) {
+            this.setupOsc(vcos[i], vcas[i]);
+            vcos[i].start(0);
+        }
     },
     
     setupOsc: function(vco, vca) {
@@ -33,19 +36,30 @@ WebAudioController.Voice.prototype = {
             vca = WebAudioController.context.createGain();
             vca.gain.value = 0;
         }
+        
         var currentNoteNumber = NoteConverter.getNoteNumberFromFrequency(this.frequency);
         currentNoteNumber += vco.pitchModifier + (12 * vco.octaveModifier);
         vco.frequency.value = NoteConverter.getFrequencyFromNoteNumber(currentNoteNumber);
         vco.connect(vca);
+        vca.gain.value = 0;
+        vco.env = EnvelopeFactory.createEnvelope(vca.gain, {
+            attack: this.envelope.getAttack(),
+            decay: this.envelope.getDecay(),
+            sustain: this.envelope.getSustain(),
+            release: this.envelope.getRelease(),
+            maximum: vca.maximum
+        });
         vca.connect(WebAudioController.context.destination);
-        
-        vco.start(0);
+        vco.env.triggerOn();
         this.oscillators.push(vco);
     },
     
     stop: function() {
-        _.each(this.oscillators, function(osc) {
-            osc.stop(0)
+        _.each(this.oscillators, function(vco) {
+            vco.env.triggerOff(function() {
+                vco.stop();
+                console.log("Stopping vco");
+            });
         });
     }
 }

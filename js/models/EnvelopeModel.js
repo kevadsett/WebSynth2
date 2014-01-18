@@ -1,58 +1,91 @@
 var EnvelopeModel = Backbone.Model.extend({
     defaults: {
-        x: 42,
-        y: 300,
-        width: 130,
-        height: 50
+        attack: 2,
+        decay: 1,
+        sustain: 0.5,
+        release: 0.1,
+        maximum: 1
     },
     initialize: function() {
-        console.log("Initializing envelope model");
         this.set({
-            attackFader: new FaderModel({
-                x: this.get('x') + 10,
-                y: this.get('y') + this.get('height') + 15,
-                height: 40,
-                width: 15,
-                value: 0.15,
-                label: "A"
-            }),
-            decayFader: new FaderModel({
-                x: this.get('x') + 40,
-                y: this.get('y') + this.get('height') + 15,
-                height: 40,
-                width: 15,
-                value: 0.8,
-                label: "D"
-            }),
-            sustainFader: new FaderModel({
-                x: this.get('x') + 70,
-                y: this.get('y') + this.get('height') + 15,
-                height: 40,
-                width: 15,
-                value: 0.7,
-                label: "S"
-            }),
-            releaseFader: new FaderModel({
-                x: this.get('x') + 100,
-                y: this.get('y') + this.get('height') + 15,
-                height: 40,
-                width: 15,
-                value: 0.9,
-                label: "R"
-            })
-        })
-        new EnvelopeView({model:this});
+            phase: EnvelopeModel.ATTACK,
+            sustain: this.get('sustain') * this.get('maximum')
+        });
+        console.log("Sustain value: " + this.get('sustain'));
     },
-    getAttack: function() {
-        return this.get('attackFader').getValue();
+    connect: function(param) {
+        this.set('param', param);
     },
-    getDecay: function() {
-        return this.get('decayFader').getValue();
+    triggerOn: function() {
+        var param = this.get('param');
+//        var now = WebAudioController.context.currentTime;
+        var now = new Date().getTime();
+        WebSynthEvents.on("render", this.update, this);
+        this.set({
+            startTime: now,
+            currentValue: 0
+        });
     },
-    getSustain: function() {
-        return this.get('sustainFader').getValue();
+    update: function() {
+        var now = new Date().getTime(),
+            deltaTime = (now - this.get('startTime')),
+            currentValue = this.get('currentValue'),
+            attackTime = this.get('attack'),
+            decayTime = this.get('decay'),
+            sustainValue = this.get('sustain'),
+            releaseTime = this.get('release'),
+            maxValue = this.get('maximum')
+        
+        switch(this.get('phase')) {
+            case EnvelopeModel.ATTACK:
+                if(currentValue < this.get('maximum')) {
+                    currentValue += this.getValueChange(attackTime, maxValue, deltaTime);
+                } else {
+                    currentValue = this.get('maximum');
+                    this.set('phase', EnvelopeModel.DECAY);
+                }
+                break;
+            case EnvelopeModel.DECAY:
+                if(currentValue > this.get('sustain')) {
+                    currentValue -= this.getValueChange(decayTime, maxValue - sustainValue, deltaTime);
+                } else {
+                    currentValue = this.get('sustain');
+                    this.set('phase', EnvelopeModel.SUSTAIN);
+                }
+                break;
+            case EnvelopeModel.RELEASE: 
+                if(currentValue > 0) {
+                    currentValue -= this.getValueChange(releaseTime, sustainValue, deltaTime);
+                } else {
+                    currentValue = 0;
+                    WebSynthEvents.off("render", this.update, this);
+                    this.get('callback')();
+                }
+                break;
+        }
+        
+        this.get('param').value = currentValue;
+        this.set({
+            startTime: now,
+            currentValue: currentValue
+        });
     },
-    getRelease: function() {
-        return this.get('releaseFader').getValue();
+    getValueChange: function(totalTime, totalChange, deltaTime) {
+        // note totalTime is expected in seconds
+        return totalChange * deltaTime / (totalTime * 1000);
+    },
+    triggerOff: function(callback) {
+        var param = this.get('param');
+        var now = WebAudioController.context.currentTime;
+        this.set({
+            phase: EnvelopeModel.RELEASE,
+            callback: callback,
+            sustain: this.get('currentValue')
+        });
     }
+},{
+    ATTACK: 0,
+    DECAY: 1,
+    SUSTAIN: 2,
+    RELEASE: 3
 });

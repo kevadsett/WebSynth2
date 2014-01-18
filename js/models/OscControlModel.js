@@ -22,7 +22,8 @@ var OscControlModel = Backbone.Model.extend({
             volumeFader: new FaderModel({
                 x: this.get('x') + 75,
                 y: this.get('y') - 25,
-                value: 1
+                value: 1,
+                label: "amplitude"
             }),
             octavePot: new PotModel({
                 x: this.get('x') + 150,

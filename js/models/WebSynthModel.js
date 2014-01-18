@@ -1,7 +1,7 @@
 var WebSynthModel = Backbone.Model.extend({
     defaults: {
-        topNote: "C5",
-        bottomNote: "C3",
+        topNote: "C6",
+        bottomNote: "C4",
         keyboard: new KeyCollection(),
         whiteKeys: new KeyCollection(),
         blackKeys: new KeyCollection(),
@@ -9,7 +9,7 @@ var WebSynthModel = Backbone.Model.extend({
         y: 40,
         pressedKeys: [],
         oscControls: [new OscControlModel(), new OscControlModel({y:200})],
-        adsr: new EnvelopeModel()
+        adsr: new AdsrModel()
     },
     initialize: function() {
         this.createKeys();
@@ -54,7 +54,7 @@ var WebSynthModel = Backbone.Model.extend({
         
         this.limitGain(vcas);
         this.get('pressedKeys').push(voice);
-        voice.start(vcos, vcas);
+        voice.start(vcos, vcas, this.get('adsr'));
     },
     
     createVco: function(control) {
@@ -81,7 +81,7 @@ var WebSynthModel = Backbone.Model.extend({
         _.each(vcas, function(vca, index) {
             var value = Math.max(normalise(vca.gain.value, 0, totalValue) - 0.1, 0);
             value = toDecimalPlaces(value, 2);
-            vca.gain.value = value;
+            vca.maximum = value;
         });
     },
     

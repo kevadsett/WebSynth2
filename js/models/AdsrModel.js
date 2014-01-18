@@ -14,7 +14,7 @@ var AdsrModel = Backbone.Model.extend({
                 height: 40,
                 width: 15,
                 value: 0.15,
-                lo: 0.1,
+                lo: 0.01,
                 hi: 3,
                 label: "A"
             }),
@@ -23,8 +23,8 @@ var AdsrModel = Backbone.Model.extend({
                 y: this.get('y') + this.get('height') + 15,
                 height: 40,
                 width: 15,
-                value: 0.8,
-                lo: 0.1,
+                value: 1,
+                lo: 0.01,
                 hi: 3,
                 label: "D"
             }),
@@ -33,8 +33,7 @@ var AdsrModel = Backbone.Model.extend({
                 y: this.get('y') + this.get('height') + 15,
                 height: 40,
                 width: 15,
-                value: 0.7,
-                lo:0,
+                value: 0.5,
                 label: "S"
             }),
             releaseFader: new FaderModel({
@@ -43,7 +42,7 @@ var AdsrModel = Backbone.Model.extend({
                 height: 40,
                 width: 15,
                 value: 0.9,
-                lo: 0.1,
+                lo: 0.01,
                 hi: 3,
                 label: "R"
             })
@@ -60,7 +59,7 @@ var AdsrModel = Backbone.Model.extend({
         return this.get('sustainFader').getValue();
     },
     getRelease: function() {
-        return 1 - this.get('releaseFader').getValue();
+        return this.get('releaseFader').getValue();
     },
     getNormalisedAttack: function() {
         var attackFader = this.get('attackFader');
