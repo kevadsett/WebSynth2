@@ -1,4 +1,4 @@
-var EnvelopeView = Backbone.View.extend({
+var AdsrView = Backbone.View.extend({
     initialize: function() {
         this.listenTo(WebSynthEvents, "renderControls", this.setContext);
         this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
@@ -14,14 +14,17 @@ var EnvelopeView = Backbone.View.extend({
             y = this.model.get('y'),
             width = this.model.get('width'),
             height = this.model.get('height'),
-            attack = this.model.getAttack(),
-            decay = this.model.getDecay(),
-            sustain = this.model.getSustain(),
-            release = this.model.getRelease();
+            attack = this.model.getNormalisedAttack(),
+            decay = this.model.getNormalisedDecay(),
+            sustain = this.model.getNormalisedSustain(),
+            release = this.model.getNormalisedRelease();
+        if(attack > 1 || decay > 1 || sustain > 1 || release > 1) {
+            console.log(attack, decay, sustain, release);
+        }
         var a = {x: x, y: y + height},
             b = {x: mapValue(attack, 0, 1, x, x + width/4), y: y},
             c = {x: mapValue(decay, 0, 1, b.x, x + 2 * width/4), y: mapValue(sustain, 0, 1, y + height, y)},
-            d = {x: mapValue(release, 0, 1, x + 3 * width/4, x + width), y: mapValue(sustain, 0, 1, y + height, y)},
+            d = {x: mapValue(release, 1, 0, x + 3 * width/4, x + width), y: mapValue(sustain, 0, 1, y + height, y)},
             e = {x: x + width, y: y + height}
         
         ctx.moveTo(a.x, a.y);
