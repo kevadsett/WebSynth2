@@ -150,5 +150,6 @@ var WebSynthModel = Backbone.Model.extend({
     }
 },{
     NOTE_NAMES: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+    KEYBOARD_KEYS: ["A", "W", "S", "E", "D", "F", "T", "G", "Y", "H", "U", "J"], 
     BOTTOM_C_FREQ: 8.1757989156, // hertz
 });

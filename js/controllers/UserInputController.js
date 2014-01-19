@@ -4,6 +4,8 @@ UserInputController = {
         WebSynthEvents.on('setupUserEvents', function(){
             $('.synthCanvas').on('mousedown', UserInputController.onMouseDown);
             $('.synthCanvas').on('mouseup', UserInputController.onMouseUp);
+            $(document).on('keydown', UserInputController.onKeyDown);
+            $(document).on('keyup', UserInputController.onKeyUp);
         });
     },
     onMouseDown: function(event) {
@@ -29,5 +31,13 @@ UserInputController = {
             y = event.pageY - $target.offset().top;
         WebSynthEvents.trigger('touchend', {x: x, y: y});
         $('.synthCanvas').off('mousemove');
+    },
+    onKeyDown: function(event) {
+        var keyNumber = getKeyboardNumber(event.which, WebSynth);
+        if(keyNumber !== -1) WebSynthEvents.trigger('keydown', keyNumber, event.shiftKey);
+    },
+    onKeyUp: function(event) {
+        var keyNumber = getKeyboardNumber(event.which, WebSynth);
+        if(keyNumber !== -1) WebSynthEvents.trigger('keyup', keyNumber, event.shiftKey);
     }
 }

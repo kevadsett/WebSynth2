@@ -63,3 +63,14 @@ function drawTriIcon(context, x, y, size) {
     context.stroke();
     context.closePath();
 }
+
+function getKeyboardNumber(charCode, synthModel) {
+    var keyPressed = String.fromCharCode(event.which),
+        keyIndex = _.indexOf(WebSynthModel.KEYBOARD_KEYS, keyPressed);
+    if(keyIndex !== -1) {
+        if (event.shiftKey) keyIndex += 12;
+        keyIndex += NoteConverter.getNoteNumberFromName(synthModel.get('bottomNote'));
+        return keyIndex;
+    }
+    return -1;
+}

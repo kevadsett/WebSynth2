@@ -5,6 +5,8 @@ var KeyView = Backbone.View.extend({
         } else {
             this.listenTo(WebSynthEvents, "renderBlackKeys", this.setContext);
         }
+        this.listenTo(WebSynthEvents, "keydown", this.onKeydown);
+        this.listenTo(WebSynthEvents, "keyup", this.onKeyup);
         this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
         this.listenTo(WebSynthEvents, "touchend", this.onTouchEnd);
         this.listenTo(WebSynthEvents, "touchmove", this.onTouchMoved);
@@ -36,6 +38,21 @@ var KeyView = Backbone.View.extend({
         ctx.fillStyle = fillStyle;
         ctx.fillRect(x, y, w, h);
         ctx.strokeRect(x, y, w, h);
+    },
+    onKeydown: function(keyNumber) {
+        if(keyNumber === this.model.get('noteNumber') && !this.model.get('pressed')) {
+            this.pressKey();
+        }
+    },
+    onKeyup: function(keyNumber, shiftKey) {
+        console.log(shiftKey);
+        if(this.model.get('pressed') && 
+           (keyNumber === this.model.get('noteNumber') ||
+            (shiftKey && keyNumber === this.model.get('noteNumber') + 12) ||
+            (!shiftKey && keyNumber === this.model.get('noteNumber') - 12))
+          ){
+            this.releaseKey();
+        }
     },
     onTouchStart: function(coords) {
         if(this.withinBounds(coords)) {
