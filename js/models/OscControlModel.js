@@ -74,7 +74,7 @@ var OscControlModel = Backbone.Model.extend({
             }),
             filterTypePot: new PotModel({
                 x: this.get('x') + 350,
-                y: this.get('y'),
+                y: this.get('y') + 10,
                 radius: 18,
                 steps: 8,
                 startStep: 0,
