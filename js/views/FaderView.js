@@ -1,4 +1,4 @@
-var FaderView = Backbone.View.extend({
+var FaderView = ControlView.extend({
     onTouchStart: function(coords) {
         if(this.withinBounds(coords)) {
             this.model.set('touching', true);
