@@ -1,13 +1,4 @@
-var AdsrView = Backbone.View.extend({
-    initialize: function() {
-        this.listenTo(WebSynthEvents, "renderControls", this.setContext);
-        this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
-    },
-    setContext: function(context) {
-        this.context = context;
-        this.render();
-    },
-    
+var AdsrView = ControlView.extend({
     render: function() {
         var ctx = this.context,
             x = this.model.get('x'),

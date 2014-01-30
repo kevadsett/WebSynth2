@@ -1,12 +1,4 @@
 var FaderView = Backbone.View.extend({
-    initialize: function() {
-        this.listenTo(WebSynthEvents, "renderControls", this.setContext);
-        this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
-    },
-    setContext: function(context) {
-        this.context = context;
-        this.render();
-    },
     onTouchStart: function(coords) {
         if(this.withinBounds(coords)) {
             this.model.set('touching', true);

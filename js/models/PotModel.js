@@ -26,9 +26,9 @@ var PotModel = Backbone.Model.extend({
         }
         if(steps) this.calculateStepAngles();
         var startingAngle = 0;
-        if (this.get('startAngle')) {
+        if (this.get('startAngle') !== undefined) {
             startingAngle = this.get('startAngle');
-        } else if (this.get('startStep')) {
+        } else if (this.get('startStep') !== undefined) {
             startingAngle = this.get('stepValues')[this.get('startStep')];
         }
         this.set({
