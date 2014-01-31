@@ -84,7 +84,7 @@ var FilterControlModel = Backbone.Model.extend({
     },
     getGain: function() {
         return this.get('gainPot').getValue();
-    }
+    },
     isActive: function() {
         return this.get('active');
     }
