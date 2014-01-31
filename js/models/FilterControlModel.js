@@ -71,7 +71,7 @@ var FilterControlModel = Backbone.Model.extend({
             })
         });
         new FilterTypeView({model:this.get('filterTypePot')});
-        new ActiveLightView({model: this});
+        // new ActiveLightView({model: this});
     },
     getType: function() {
         return this.get('filterTypePot').getValue();
