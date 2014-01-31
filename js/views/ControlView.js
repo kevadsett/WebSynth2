@@ -2,6 +2,7 @@ var ControlView = Backbone.View.extend({
     initialize: function() {
         this.listenTo(WebSynthEvents, "renderControls", this.setContext);
         this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
+        this.listenTo(WebSynthEvents, "dblclick", this.onDoubleClick);
         this.listenTo(WebSynthEvents, "touchend", this.onTouchEnd);
     },
     setContext: function(context) {
