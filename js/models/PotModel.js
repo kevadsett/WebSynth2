@@ -10,7 +10,11 @@ var PotModel = Backbone.Model.extend({
         new PotView({model: this});
         this.on('change:angle', _.bind(this.limitAngle, this));
         var values = this.get('values'),
-            steps = this.get('steps');
+            steps = this.get('steps'),
+            startAngle = this.get('startAngle'),
+            startStep = this.get('startStep'),
+            startValue = this.get('startValue');
+
         if(!values) {
             if(steps) {
                 values = {
@@ -24,17 +28,32 @@ var PotModel = Backbone.Model.extend({
                 }
             }
         }
-        if(steps) this.calculateStepAngles();
-        var startingAngle = 0;
-        if (this.get('startAngle') !== undefined) {
-            startingAngle = this.get('startAngle');
-        } else if (this.get('startStep') !== undefined) {
-            startingAngle = this.get('stepValues')[this.get('startStep')];
+        
+        if(this.get('logarithmic')) {
+            values.lo = Math.log(values.lo);
+            values.hi = Math.log(values.hi);
+            if(startValue !== undefined) {
+                startValue = Math.log(startValue);
+            }
         }
+
+        if(steps) this.calculateStepAngles();
+
+        var startingAngle = 0;
+        if (startAngle !== undefined) {
+            startingAngle = startAngle;
+        } else if (startStep !== undefined) {
+            startingAngle = this.get('stepValues')[startStep];
+        } else if(startValue !== undefined) {
+            var angleLimit = this.get('angleLimit');
+            startingAngle = mapValue(startValue, values.lo, values.hi, angleLimit.lo, angleLimit.hi + 360);
+        }
+
         this.set({
             values: values,
             angle:  startingAngle
-        })
+        });
+        this.limitAngle();
     },
     
     calculateStepAngles: function() {
@@ -101,12 +120,12 @@ var PotModel = Backbone.Model.extend({
                 value: mapValue(angleIndex, 0, steps-1, values.lo, values.hi)
             });
         }
-        console.log(this.cid, toDecimalPlaces(this.get('value'), 2));
+        console.log(this.cid, toDecimalPlaces(this.get('value'), 2), toDecimalPlaces(this.getValue(), 2));
     },
     getOffsetAngle: function(angle) {
         return (angle - this.get('angleLimit').lo + 360) % 360;
     },
     getValue: function() {
-        return this.get('value');
+        return this.get('logarithmic') ? Math.exp(this.get('value')): this.get('value');
     }
 });
