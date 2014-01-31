@@ -71,26 +71,9 @@ var OscControlModel = Backbone.Model.extend({
                     hi:100
                 },
                 label: "Detune"
-            }),
-            filterTypePot: new PotModel({
-                x: this.get('x') + 350,
-                y: this.get('y') + 10,
-                radius: 18,
-                steps: 8,
-                startStep: 0,
-                angleLimit: {
-                    lo: 135,
-                    hi: 45
-                },
-                values: {
-                    lo: 0,
-                    hi: 7
-                },
-                label: "Filter type"
             })
         });
             new OscTypeView({model:this.get('oscTypePot')});
-            new FilterTypeView({model:this.get('filterTypePot')});
     },
     getType: function() {
         return this.get('oscTypePot').getValue();

@@ -9,6 +9,7 @@ var WebSynthModel = Backbone.Model.extend({
         y: 40,
         pressedKeys: [],
         oscControls: [new OscControlModel(), new OscControlModel({y:200})],
+        filterControl: new FilterControlModel(),
         adsr: new AdsrModel()
     },
     initialize: function() {
