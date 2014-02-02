@@ -21,7 +21,7 @@ var WebSynthModel = Backbone.Model.extend({
         _.each(this.get('oscControls'), function(oscControl, index) {
             oscControl.activate(index === 0);
         });
-        this.get('filterControl').activate(false);
+        this.get('filterControl').activate(true);
     },
     createKeys: function() {
         var bottomNote = NoteConverter.getNoteNumberFromName(this.get('bottomNote')),
@@ -61,7 +61,7 @@ var WebSynthModel = Backbone.Model.extend({
         
         this.limitGain(vcas);
         this.get('pressedKeys').push(voice);
-        voice.start(vcos, vcas, this.get('adsr'));
+        voice.start(vcos, vcas, this.get('adsr'), this.get('filterControl'));
     },
     
     createVco: function(control) {

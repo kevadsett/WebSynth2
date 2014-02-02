@@ -96,6 +96,7 @@ var FilterControlModel = Backbone.Model.extend({
         this.get('activityLight').set('active', active);
     },
     onActiveChanged: function() {
+        console.log("Filter active changed");
         var active = this.get('activityLight').getValue();
         this.get('filterTypePot').enable(active);
         this.get('frequencyPot').enable(active);

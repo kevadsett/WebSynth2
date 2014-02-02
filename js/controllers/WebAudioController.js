@@ -17,7 +17,9 @@ var WebAudioController = {
 WebAudioController.Voice.prototype = {
     start: function(vcos, vcas, envelope, filter) {
         this.envelope = envelope;
-        this.filter = filter;
+        if(filter.isActive()) {
+            this.filter = filter;
+        }
         if(vcos.length !== vcas.length) {
             throw new Error("Number of oscillators differs from number of gains");
         }
@@ -50,7 +52,17 @@ WebAudioController.Voice.prototype = {
             release: this.envelope.getRelease(),
             maximum: vca.maximum
         });
-        vca.connect(WebAudioController.context.destination);
+        if(this.filter) {
+            var filter = WebAudioController.context.createBiquadFilter();
+            filter.type = this.filter.getType();
+            filter.frequency.value = this.filter.getFrequency();
+            filter.Q.value = this.filter.getQ();
+            filter.gain.value = this.filter.getGain();
+            vca.connect(filter);
+            filter.connect(WebAudioController.context.destination);
+        } else {
+            vca.connect(WebAudioController.context.destination);
+        }
         vco.env.triggerOn();
         this.oscillators.push(vco);
     },
