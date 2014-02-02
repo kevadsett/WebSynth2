@@ -49,8 +49,10 @@ var WebSynthModel = Backbone.Model.extend({
             vcas = [];
         
         _.each(oscControls, function(oscControl){
-            vcos.push(this.createVco(oscControl));
-            vcas.push(this.createVca(oscControl));
+            if(oscControl.isActive()) {
+                vcos.push(this.createVco(oscControl));
+                vcas.push(this.createVca(oscControl));
+            }
         }, this);
         
         this.limitGain(vcas);

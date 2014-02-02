@@ -71,6 +71,11 @@ var OscControlModel = Backbone.Model.extend({
                     hi:100
                 },
                 label: "Detune"
+            }),
+            activityLight: new ActivityLightModel({
+                x: this.get('x') - 60,
+                y: this.get('y'),
+                radius: 5
             })
         });
             new OscTypeView({model:this.get('oscTypePot')});
@@ -90,4 +95,7 @@ var OscControlModel = Backbone.Model.extend({
     getDetune: function() {
         return this.get('detunePot').getValue();
     },
+    isActive: function() {
+        return this.get('activityLight').getValue();
+    }
 });
