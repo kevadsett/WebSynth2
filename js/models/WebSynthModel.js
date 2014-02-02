@@ -21,6 +21,7 @@ var WebSynthModel = Backbone.Model.extend({
         _.each(this.get('oscControls'), function(oscControl, index) {
             oscControl.activate(index === 0);
         });
+        this.get('filterControl').activate(false);
     },
     createKeys: function() {
         var bottomNote = NoteConverter.getNoteNumberFromName(this.get('bottomNote')),

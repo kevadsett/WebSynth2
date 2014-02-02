@@ -98,12 +98,13 @@ var OscControlModel = Backbone.Model.extend({
     isActive: function() {
         return this.get('activityLight').getValue();
     },
-    onActiveChanged: function() {
-        this.activate(this.get('activityLight').getValue());
-    },
     activate: function(active) {
         console.log("Activate");
         this.get('activityLight').set('active', active);
+    },
+    onActiveChanged: function() {
+        var active = this.get('activityLight').getValue();
+        console.log(active);
         this.get('oscTypePot').enable(active);
         this.get('volumeFader').enable(active);
         this.get('octavePot').enable(active);
