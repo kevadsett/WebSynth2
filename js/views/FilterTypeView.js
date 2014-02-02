@@ -5,11 +5,11 @@ var FilterTypeView = ControlView.extend({
             x = this.model.get('x') - width / 2,
             y = this.model.get('y') - height * 3,
             ctx = this.context;
+        ctx.strokeStyle = this.model.get('enabled') ? "#000" : "#aaa";
         this.drawBackground(x, y, width, height, ctx);
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.strokeStyle = "#fff";
         ctx.beginPath();
         switch(this.model.getValue()) {
             case FilterModel.types.LO_PASS:
@@ -44,7 +44,6 @@ var FilterTypeView = ControlView.extend({
     drawBackground: function(x, y, width, height, ctx) {
         ctx.beginPath();
         ctx.fillStyle = "#333";
-        ctx.strokeStyle = "#000";
         ctx.rect(x, y, width, height);
         ctx.fill();
         ctx.stroke();

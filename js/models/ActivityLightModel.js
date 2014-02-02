@@ -3,7 +3,7 @@ var ActivityLightModel = Backbone.Model.extend({
         x: 0,
         y: 0,
         radius: 10,
-        active: true
+        active: false
     },
     initialize: function() {
         new ActivityLightView({model: this});

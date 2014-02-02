@@ -31,8 +31,9 @@ var ActivityLightView = ControlView.extend({
         ctx.arc(0, 0, radius, 0, 2 * Math.PI, false);
         ctx.fillStyle = this.model.get('active') ? "#00ff00" : "#333";
         ctx.fill();
+        ctx.strokeStyle = "#000";
         ctx.stroke();
-        
+        ctx.closePath();
         ctx.restore();
     }
 });

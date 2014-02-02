@@ -3,7 +3,8 @@ var PotModel = Backbone.Model.extend({
         x: 0,
         y: 0,
         radius: 10,
-        value: 0
+        value: 0,
+        enabled: true
     },
     initialize: function() {
         console.log("initializing pot model");
@@ -127,5 +128,8 @@ var PotModel = Backbone.Model.extend({
     },
     getValue: function() {
         return this.get('logarithmic') ? Math.exp(this.get('value')): this.get('value');
+    },
+    enable: function(value) {
+        this.set('enabled', value);
     }
 });

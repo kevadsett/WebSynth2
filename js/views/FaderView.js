@@ -50,6 +50,8 @@ var FaderView = ControlView.extend({
             valueY = height - (this.model.getNormalisedValue() * height);
         ctx.save();
         ctx.translate(x, y);
+
+
         // label
         ctx.textAlign = "center";
         ctx.fillText(this.model.get('label'), width/2, height + height/3);
@@ -65,10 +67,10 @@ var FaderView = ControlView.extend({
         }
         
         ctx.beginPath();
+        ctx.strokeStyle = this.model.get('enabled') ? "#000" : "#aaa";
+        ctx.fillStyle = this.model.get('enabled') ? "#333" : "#999";
         ctx.rect(0, 0, width, height);
-        ctx.fillStyle = "#333";
         ctx.fill();
-        ctx.strokeStyle = "#000";
         ctx.stroke();
         ctx.closePath();
         
@@ -77,9 +79,10 @@ var FaderView = ControlView.extend({
         ctx.rect(-padding, valueY - padding, width + padding * 2, padding * 2);
         ctx.moveTo(padding, valueY);
         ctx.lineTo(width - padding, valueY);
-        ctx.fillStyle = this.model.get('touching') ? "#bbb" : "#aaa";
+        ctx.fillStyle = this.model.get('enabled') ? (this.model.get('touching') ? "#bbb" : "#aaa") : "#ddd";
         ctx.fill();
         ctx.stroke();
+        ctx.closePath();
         
         ctx.restore();
     }

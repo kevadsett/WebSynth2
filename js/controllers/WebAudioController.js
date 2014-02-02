@@ -15,8 +15,9 @@ var WebAudioController = {
 }
 
 WebAudioController.Voice.prototype = {
-    start: function(vcos, vcas, envelope) {
+    start: function(vcos, vcas, envelope, filter) {
         this.envelope = envelope;
+        this.filter = filter;
         if(vcos.length !== vcas.length) {
             throw new Error("Number of oscillators differs from number of gains");
         }

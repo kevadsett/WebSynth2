@@ -36,8 +36,12 @@ var KeyView = Backbone.View.extend({
             }
         }
         ctx.fillStyle = fillStyle;
-        ctx.fillRect(x, y, w, h);
-        ctx.strokeRect(x, y, w, h);
+        ctx.strokeStyle = "#000";
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
     },
     onKeydown: function(keyNumber) {
         if(keyNumber === this.model.get('noteNumber') && !this.model.get('pressed')) {
@@ -62,7 +66,6 @@ var KeyView = Backbone.View.extend({
     onTouchEnd: function(coords) {
         if(this.withinBounds(coords)) {
             if(this.model.get('pressed')) {
-            console.log("touchend within bounds of pressed key: " + this.model.get('noteName'));
                 this.releaseKey();
             }
         }
