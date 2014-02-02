@@ -18,7 +18,9 @@ var WebSynthModel = Backbone.Model.extend({
         this.listenTo(WebSynthEvents, "keyPressed", this.onKeyPressed);
         this.listenTo(WebSynthEvents, "keyReleased", this.onKeyReleased);
         this.listenTo(WebSynthEvents, "resize", this.onResize);
-        this.get('oscControls')[0].activate(true);
+        _.each(this.get('oscControls'), function(oscControl, index) {
+            oscControl.activate(index === 0);
+        });
     },
     createKeys: function() {
         var bottomNote = NoteConverter.getNoteNumberFromName(this.get('bottomNote')),
