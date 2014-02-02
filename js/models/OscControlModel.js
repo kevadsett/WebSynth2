@@ -4,7 +4,6 @@ var OscControlModel = Backbone.Model.extend({
         y: 50
     },
     initialize: function() {
-        console.log("Initializing osc control model");
         this.set({
             oscTypePot: new PotModel({
                 x: this.get('x'),
@@ -99,12 +98,10 @@ var OscControlModel = Backbone.Model.extend({
         return this.get('activityLight').getValue();
     },
     activate: function(active) {
-        console.log("Activate");
         this.get('activityLight').set('active', active);
     },
     onActiveChanged: function() {
         var active = this.get('activityLight').getValue();
-        console.log(active);
         this.get('oscTypePot').enable(active);
         this.get('volumeFader').enable(active);
         this.get('octavePot').enable(active);

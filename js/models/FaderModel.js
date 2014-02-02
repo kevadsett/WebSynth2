@@ -10,7 +10,6 @@ var FaderModel = Backbone.Model.extend({
         enabled: true
     },
     initialize: function() {
-        console.log("initializing fader model");
         this.set({
             padding: this.get('height')/10
         });

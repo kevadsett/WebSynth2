@@ -6,7 +6,6 @@ var AdsrModel = Backbone.Model.extend({
         height: 50
     },
     initialize: function() {
-        console.log("Initializing envelope model");
         this.set({
             attackFader: new FaderModel({
                 x: this.get('x') + 10,

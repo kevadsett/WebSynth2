@@ -17,7 +17,6 @@ var ControlView = Backbone.View.extend({
         this.listenTo(WebSynthEvents, "touchend", this.onTouchEnd);
     },
     onEnabledChanged: function() {
-        console.log("onEnabledChanged");
         if(this.model.get('enabled')) {
             this.startListening();
         } else {
