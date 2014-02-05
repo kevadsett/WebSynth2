@@ -1,14 +1,6 @@
-var PotView = Backbone.View.extend({
-    initialize: function() {
-        this.listenTo(WebSynthEvents, "renderControls", this.setContext);
-        this.listenTo(WebSynthEvents, "touchstart", this.onTouchStart);
-    },
-    setContext: function(context) {
-        this.context = context;
-        this.render();
-    },
+var PotView = ControlView.extend({
     onTouchStart: function(coords) {
-        if(this.withinBounds(coords)) {
+        if(this.withinBounds(coords) && !this.model.get('enabled')) {
             this.model.set('touching', true);
             this.listenTo(WebSynthEvents, "touchend", this.onTouchEnd);
             this.listenTo(WebSynthEvents, "touchmove", this.onTouchMoved);
@@ -48,6 +40,8 @@ var PotView = Backbone.View.extend({
         ctx.textAlign = "center";
         ctx.fillText(this.model.get('label'), 0, radius * 2);
         
+        ctx.strokeStyle = this.model.get('enabled') ? "#000" : "#aaa";
+
         // notches
         var angleLimit = this.model.get('angleLimit');
         
@@ -96,11 +90,12 @@ var PotView = Backbone.View.extend({
         ctx.rotate(degToRad(this.model.get('angle')));
         ctx.beginPath();
         ctx.arc(0, 0, radius, 0, 2 * Math.PI, false);
-        ctx.fillStyle = this.model.get('touching') ? "#bbb" : "#aaa";
+        ctx.fillStyle = this.model.get('enabled') ? (this.model.get('touching') ? "#bbb" : "#aaa") : "#ddd";
         ctx.fill();
         ctx.moveTo(0, 0);
         ctx.lineTo(0 + radius, 0);
         ctx.stroke();
+        ctx.closePath();
         
         ctx.restore();
     }

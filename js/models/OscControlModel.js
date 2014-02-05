@@ -1,11 +1,9 @@
 var OscControlModel = Backbone.Model.extend({
     defaults: {
         x: 100,
-        y: 50,
-        
+        y: 50
     },
     initialize: function() {
-        console.log("Initializing osc control model");
         this.set({
             oscTypePot: new PotModel({
                 x: this.get('x'),
@@ -71,9 +69,15 @@ var OscControlModel = Backbone.Model.extend({
                     hi:100
                 },
                 label: "Detune"
+            }),
+            activityLight: new ActivityLightModel({
+                x: this.get('x') - 60,
+                y: this.get('y'),
+                radius: 5
             })
         });
-            new OscTypeView({model:this.get('oscTypePot')});
+        new OscTypeView({model:this.get('oscTypePot')});
+        this.listenTo(this.get('activityLight'), "change:active", this.onActiveChanged);
     },
     getType: function() {
         return this.get('oscTypePot').getValue();
@@ -90,4 +94,18 @@ var OscControlModel = Backbone.Model.extend({
     getDetune: function() {
         return this.get('detunePot').getValue();
     },
+    isActive: function() {
+        return this.get('activityLight').getValue();
+    },
+    activate: function(active) {
+        this.get('activityLight').set('active', active);
+    },
+    onActiveChanged: function() {
+        var active = this.get('activityLight').getValue();
+        this.get('oscTypePot').enable(active);
+        this.get('volumeFader').enable(active);
+        this.get('octavePot').enable(active);
+        this.get('pitchPot').enable(active);
+        this.get('detunePot').enable(active);
+    }
 });

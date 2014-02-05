@@ -1,8 +1,7 @@
 var FilterControlModel = Backbone.Model.extend({
     defaults: {
         x: 450,
-        y: 60,
-        active:true
+        y: 60
     },
     initialize: function() {
         this.set({
@@ -68,10 +67,15 @@ var FilterControlModel = Backbone.Model.extend({
                     hi: 40
                 },
                 label: "Gain"
+            }),
+            activityLight: new ActivityLightModel({
+                x: this.get('x'),
+                y: this.get('y') - 50,
+                radius: 5
             })
         });
         new FilterTypeView({model:this.get('filterTypePot')});
-        // new ActiveLightView({model: this});
+        this.listenTo(this.get('activityLight'), "change:active", this.onActiveChanged);
     },
     getType: function() {
         return this.get('filterTypePot').getValue();
@@ -86,6 +90,16 @@ var FilterControlModel = Backbone.Model.extend({
         return this.get('gainPot').getValue();
     },
     isActive: function() {
-        return this.get('active');
+        return this.get('activityLight').getValue();
+    },
+    activate: function(active) {
+        this.get('activityLight').set('active', active);
+    },
+    onActiveChanged: function() {
+        var active = this.get('activityLight').getValue();
+        this.get('filterTypePot').enable(active);
+        this.get('frequencyPot').enable(active);
+        this.get('qPot').enable(active);
+        this.get('gainPot').enable(active);
     }
 });

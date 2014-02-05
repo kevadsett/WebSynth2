@@ -3,6 +3,7 @@ var OscTypeView = ControlView.extend({
         var x = this.model.get('x'),
             y = this.model.get('y'),
             radius = this.model.get('radius');
+        this.context.strokeStyle = this.model.get('enabled') ? "#000" : "#aaa";
         this.drawSineIcon(x - radius * 2, y + radius);
         this.drawSquareIcon(x - radius * 2, y - radius);
         this.drawSawIcon(x + radius , y - radius);

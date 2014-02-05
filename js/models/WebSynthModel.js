@@ -18,6 +18,10 @@ var WebSynthModel = Backbone.Model.extend({
         this.listenTo(WebSynthEvents, "keyPressed", this.onKeyPressed);
         this.listenTo(WebSynthEvents, "keyReleased", this.onKeyReleased);
         this.listenTo(WebSynthEvents, "resize", this.onResize);
+        _.each(this.get('oscControls'), function(oscControl, index) {
+            oscControl.activate(index === 0);
+        });
+        this.get('filterControl').activate(false);
     },
     createKeys: function() {
         var bottomNote = NoteConverter.getNoteNumberFromName(this.get('bottomNote')),
@@ -49,8 +53,10 @@ var WebSynthModel = Backbone.Model.extend({
             vcas = [];
         
         _.each(oscControls, function(oscControl){
-            vcos.push(this.createVco(oscControl));
-            vcas.push(this.createVca(oscControl));
+            if(oscControl.isActive()) {
+                vcos.push(this.createVco(oscControl));
+                vcas.push(this.createVca(oscControl));
+            }
         }, this);
         
         this.limitGain(vcas);

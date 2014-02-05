@@ -3,10 +3,10 @@ var PotModel = Backbone.Model.extend({
         x: 0,
         y: 0,
         radius: 10,
-        value: 0
+        value: 0,
+        enabled: true
     },
     initialize: function() {
-        console.log("initializing pot model");
         new PotView({model: this});
         this.on('change:angle', _.bind(this.limitAngle, this));
         var values = this.get('values'),
@@ -120,12 +120,14 @@ var PotModel = Backbone.Model.extend({
                 value: mapValue(angleIndex, 0, steps-1, values.lo, values.hi)
             });
         }
-        console.log(this.cid, toDecimalPlaces(this.get('value'), 2), toDecimalPlaces(this.getValue(), 2));
     },
     getOffsetAngle: function(angle) {
         return (angle - this.get('angleLimit').lo + 360) % 360;
     },
     getValue: function() {
         return this.get('logarithmic') ? Math.exp(this.get('value')): this.get('value');
+    },
+    enable: function(value) {
+        this.set('enabled', value);
     }
 });
