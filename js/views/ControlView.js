@@ -3,6 +3,7 @@ var ControlView = Backbone.View.extend({
         this.startListening();
         this.listenTo(WebSynthEvents, "renderControls", this.setContext);
         this.listenTo(this.model, "change:enabled", this.onEnabledChanged);
+        window.CONTROL_VIEWS.push(this);
     },
     setContext: function(context) {
         this.context = context;
@@ -22,6 +23,7 @@ var ControlView = Backbone.View.extend({
         } else {
             this.stopListening();
             this.listenTo(WebSynthEvents, "renderControls", this.setContext);
+            this.listenTo(this.model, "change:enabled", this.onEnabledChanged);
         }
     }
 });

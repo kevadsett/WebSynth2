@@ -1,6 +1,6 @@
 var PotView = ControlView.extend({
     onTouchStart: function(coords) {
-        if(this.withinBounds(coords) && !this.model.get('enabled')) {
+        if(this.withinBounds(coords) && this.model.get('enabled')) {
             this.model.set('touching', true);
             this.listenTo(WebSynthEvents, "touchend", this.onTouchEnd);
             this.listenTo(WebSynthEvents, "touchmove", this.onTouchMoved);

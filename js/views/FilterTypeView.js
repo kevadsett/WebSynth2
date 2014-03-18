@@ -12,28 +12,28 @@ var FilterTypeView = ControlView.extend({
         ctx.translate(x, y);
         ctx.beginPath();
         switch(this.model.getValue()) {
-            case FilterModel.types.LO_PASS:
+            case FilterTypes.LO_PASS:
                 this.drawLowPassIcon(x, y, width, height, ctx);
             break;
-            case FilterModel.types.HI_PASS:
+            case FilterTypes.HI_PASS:
                 this.drawHighPassIcon(x, y, width, height, ctx);
             break;
-            case FilterModel.types.BAND_PASS:
+            case FilterTypes.BAND_PASS:
                 this.drawBandPassIcon(x, y, width, height, ctx);
             break;
-            case FilterModel.types.LO_SHELF:
+            case FilterTypes.LO_SHELF:
                 this.drawLowShelfIcon(x, y, width, height, ctx);
             break;
-            case FilterModel.types.HI_SHELF:
+            case FilterTypes.HI_SHELF:
                 this.drawHighShelfIcon(x, y, width, height, ctx);
             break;
-            case FilterModel.types.PEAKING:
+            case FilterTypes.PEAKING:
                 this.drawPeakingIcon(x, y, width, height, ctx);
             break;
-            case FilterModel.types.NOTCH:
+            case FilterTypes.NOTCH:
                 this.drawNotchIcon(x, y, width, height, ctx);
             break;
-            case FilterModel.types.ALL_PASS:
+            case FilterTypes.ALL_PASS:
                 this.drawAllPassIcon(x, y, width, height, ctx);
             break;
         }
