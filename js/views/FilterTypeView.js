@@ -7,7 +7,7 @@ var FilterTypeView = ControlView.extend({
             ctx = this.context;
         ctx.strokeStyle = this.model.get('enabled') ? "#fff" : "#aaa";
         this.drawBackground(x, y, width, height, ctx);
-
+        ctx.textAlign = "center";
         ctx.save();
         ctx.translate(x, y);
         ctx.beginPath();
@@ -53,11 +53,13 @@ var FilterTypeView = ControlView.extend({
         ctx.moveTo(0, height/2);
         ctx.lineTo(width - width/5, height/2);
         ctx.lineTo(width, height);
+        ctx.fillText("Low pass", width/2, -6);
     },
     drawHighPassIcon: function(x, y, width, height, ctx) {
         ctx.moveTo(0, height);
         ctx.lineTo(width/5, height/2);
         ctx.lineTo(width, height/2);
+        ctx.fillText("High pass", width/2, -6);
     },
     drawBandPassIcon: function(x, y, width, height, ctx) {
         ctx.moveTo(0, height);
@@ -66,18 +68,21 @@ var FilterTypeView = ControlView.extend({
         ctx.lineTo(width - width/5 * 2, height/2);
         ctx.lineTo(width - width/5 , height);
         ctx.lineTo(width, height);
+        ctx.fillText("Band pass", width/2, -6);
     },
     drawLowShelfIcon: function(x, y, width, height, ctx) {
         ctx.moveTo(0, height - height/5);
         ctx.lineTo(width/5, height - height/5);
         ctx.lineTo(width/5 * 2, height/2);
         ctx.lineTo(width, height/2);
+        ctx.fillText("Low shelf", width/2, -6);
     },
     drawHighShelfIcon: function(x, y, width, height, ctx) {
         ctx.moveTo(0, height/2);
         ctx.lineTo(width - width/5 * 2, height/2);
         ctx.lineTo(width - width/5, height - height/5);
         ctx.lineTo(width, height - height/5);
+        ctx.fillText("High shelf", width/2, -6);
     },
     drawPeakingIcon: function(x, y, width, height, ctx) {
         ctx.moveTo(0, height/2);
@@ -86,6 +91,7 @@ var FilterTypeView = ControlView.extend({
         ctx.lineTo(width - width/9 * 4, height/5);
         ctx.lineTo(width - width/9 * 3 , height/2);
         ctx.lineTo(width, height/2);
+        ctx.fillText("Peaking", width/2, -6);
     },
     drawNotchIcon: function(x, y, width, height, ctx) {
         ctx.moveTo(0, height/2);
@@ -94,12 +100,11 @@ var FilterTypeView = ControlView.extend({
         ctx.lineTo(width - width/5 * 2, height);
         ctx.lineTo(width - width/5 , height/2);
         ctx.lineTo(width, height/2);
+        ctx.fillText("Notch", width/2, -6);
     },
     drawAllPassIcon: function(x, y, width, height, ctx) {
         ctx.moveTo(0, height/2);
         ctx.lineTo(width, height/2);
-
-        ctx.textAlign = "center";
         ctx.fillText("All pass", width/2, -6);
     }
 })
