@@ -1,4 +1,4 @@
-var FilterTypes =  {
+var FilterTypes = {
     LO_PASS: 0,
     HI_PASS: 1,
     BAND_PASS: 2,
