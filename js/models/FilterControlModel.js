@@ -1,7 +1,7 @@
 var FilterControlModel = Backbone.Model.extend({
     defaults: {
         x: 450,
-        y: 60
+        y: 100
     },
     initialize: function() {
         this.set({
@@ -70,7 +70,7 @@ var FilterControlModel = Backbone.Model.extend({
             }),
             activityLight: new ActivityLightModel({
                 x: this.get('x'),
-                y: this.get('y') - 50,
+                y: this.get('y') - 70,
                 radius: 5
             })
         });
